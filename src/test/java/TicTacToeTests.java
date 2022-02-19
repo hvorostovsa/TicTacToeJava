@@ -59,5 +59,13 @@ public final class TicTacToeTests {
         new TicTacToe(3).clear(0,2);
     }
 
+    @Test
+    public void longestSequenceTest() { // не проходит
+        TicTacToe field1 = new TicTacToe(3);
+        field1.setX(0,1);
+        field1.setX(1,1);
+        field1.setX(2,1);
+        assertEquals(3, field1.longestSequenceX());
+    }
 
 }
