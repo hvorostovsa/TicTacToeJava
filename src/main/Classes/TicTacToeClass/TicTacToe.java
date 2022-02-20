@@ -48,10 +48,13 @@ public final class TicTacToe {
 
     private int oneSequence(boolean[][][] flags, int flag, int result, int j, int k, Boolean value, int difJ, int difK, int flagNum) {
         int border = side - 1;
-        if (k != border && !flags[j][k][flagNum] && field[j][k] == value && field[j + difJ][k + difK] == value) {
-            result += 1;
-            flag = flagNum;
-            oneCellSequences(flags, flagNum, result, j + difJ, k + difK, value);
+        if (flagNum == 1 && k != border || flagNum == 2 && k != border && j != border
+            || flagNum == 3 && j != border || flagNum == 4 && k != 0 && j != border) {
+            if (!flags[j][k][flagNum] && field[j][k] == value && field[j + difJ][k + difK] == value){
+                result += 1;
+                flag = flagNum;
+                result = oneSequence(flags, flag, result, j + difJ, k + difK, value, difJ, difK, flagNum);
+            }
         }
         flags[j][k][flagNum] = true;
         return result;
@@ -63,7 +66,6 @@ public final class TicTacToe {
         int maxLength2 = 0;
         int maxLength3 = 0;
         int maxLength4 = 0;
-        int border = side - 1;
 
         if (field[j][k] == null) return 0;
 
@@ -72,38 +74,15 @@ public final class TicTacToe {
         }
 
         if (flag == 0 || flag == 2) {
-            if (k != border && j != border && !flags[j][k][2] && field[j][k] == value && field[j + 1][k + 1] == value) {
-                result += 1;
-                flags[j][k][2] = true;
-                flag = 2;
-                oneCellSequences(flags, flag, result, j + 1, k + 1, value);
-            }
-            flags[j][k][2] = true;
-            maxLength2 = Math.max(result, maxLength2);
-            result = 1;
+            maxLength2 = oneSequence(flags, flag, result, j, k, value, 1, 1, 2);
         }
 
         if (flag == 0 || flag == 3) {
-            if (j != border && !flags[j][k][3] && field[j][k] == value && field[j + 1][k] == value) {
-                result += 1;
-                flags[j][k][3] = true;
-                flag = 3;
-                oneCellSequences(flags, flag, result, j + 1, k, value);
-            }
-            flags[j][k][3] = true;
-            maxLength3 = Math.max(result, maxLength3);
-            result = 1;
+            maxLength3 = oneSequence(flags, flag, result, j, k, value, 1, 0, 3);
         }
 
         if (flag == 0 || flag == 4) {
-            if (k != 0 && j != border &&!flags[j][k][4] && field[j][k] == value && field[j + 1][k - 1] == value) {
-                result += 1;
-                flags[j][k][4] = true;
-                flag = 4;
-                oneCellSequences(flags, flag, result, j + 1, k - 1, value);
-            }
-            flags[j][k][4] = true;
-            maxLength4 = Math.max(result, maxLength4);
+            maxLength4 = oneSequence(flags, flag, result, j, k, value, 1, -1, 4);
         }
         if (maxLength1 >= maxLength2 && maxLength1 >= maxLength3 && maxLength1 >= maxLength4) return maxLength1;
         else if (maxLength2 >= maxLength3 && maxLength2 >= maxLength4) return maxLength2;

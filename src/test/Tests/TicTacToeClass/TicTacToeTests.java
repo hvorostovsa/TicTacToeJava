@@ -7,7 +7,11 @@ import static org.junit.Assert.*;
 public final class TicTacToeTests {
     @Test
     public void size() {
-        assertEquals("height and width is 3", new TicTacToe(3).sizeTest());
+        TicTacToe field1 = new TicTacToe(3);
+        TicTacToe field2 = new TicTacToe(4);
+        assertEquals("height and width is 3", field1.sizeTest());
+        assertEquals("height and width is 4", field2.sizeTest());
+
     }
 
     @Test
@@ -67,6 +71,21 @@ public final class TicTacToeTests {
         field1.setX(1,1);
         field1.setX(2,1);
         assertEquals(3, field1.longestSequenceX());
+
+        TicTacToe field2 = new TicTacToe(4);
+        field2.setX(0,2);
+        field2.setX(1,2);
+        field2.setX(2,2);
+        field2.setX(3,2);
+        field2.setX(1,1);
+        field2.setX(2,0);
+        field2.setO(0, 3);
+        field2.setO(1, 3);
+        field2.setO(2, 3);
+        field2.setO(0, 0);
+        field2.setO(0, 1);
+        assertEquals(4, field2.longestSequenceX());
+        assertEquals(3, field2.longestSequenceO());
     }
 
 }
