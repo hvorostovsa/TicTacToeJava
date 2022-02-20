@@ -1,3 +1,4 @@
+package TicTacToeClass;
 
 import org.junit.Test;
 

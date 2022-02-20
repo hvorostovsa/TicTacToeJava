@@ -1,3 +1,4 @@
+package TicTacToeClass;
 
 public final class TicTacToe {
     private final int side;
@@ -44,34 +45,41 @@ public final class TicTacToe {
             else throw new ArrayStoreException("Cell is already clear");
         } else throw new IndexOutOfBoundsException("Coordinate cannot be determined outside the field");
     }
+
+    private int oneSequence(boolean[][][] flags, int flag, int result, int j, int k, Boolean value, int difJ, int difK, int flagNum) {
+        int border = side - 1;
+        if (k != border && !flags[j][k][flagNum] && field[j][k] == value && field[j + difJ][k + difK] == value) {
+            result += 1;
+            flag = flagNum;
+            oneCellSequences(flags, flagNum, result, j + difJ, k + difK, value);
+        }
+        flags[j][k][flagNum] = true;
+        return result;
+    }
+
     // надо исправлять
-    private int oneSequence(boolean[][][] flags, int flag, int result, int j, int k, Boolean value) {
-        int maxLength = 0;
+    private int oneCellSequences(boolean[][][] flags, int flag, int result, int j, int k, Boolean value) {
+        int maxLength1 = 0;
+        int maxLength2 = 0;
+        int maxLength3 = 0;
+        int maxLength4 = 0;
         int border = side - 1;
 
         if (field[j][k] == null) return 0;
 
         if (flag == 0 || flag == 1) {
-            if (k != border && !flags[j][k][1] && field[j][k] == value && field[j][k + 1] == value) {
-                result += 1;
-                flags[j][k][1] = true;
-                flags[j][k + 1][1] = true; // ошибка постановки флага заранее, не идет проверять дальше, тк думает, что уже заходил
-                flag = 1;
-                oneSequence(flags, flag, result, j, k + 1, value);
-            }
-            maxLength = Math.max(result, maxLength);
-            result = 1;
+            maxLength1 = oneSequence(flags, flag, result, j, k, value, 0, 1, 1);
         }
 
         if (flag == 0 || flag == 2) {
             if (k != border && j != border && !flags[j][k][2] && field[j][k] == value && field[j + 1][k + 1] == value) {
                 result += 1;
                 flags[j][k][2] = true;
-                flags[j + 1][k + 1][2] = true;
                 flag = 2;
-                oneSequence(flags, flag, result, j + 1, k + 1, value);
+                oneCellSequences(flags, flag, result, j + 1, k + 1, value);
             }
-            maxLength = Math.max(result, maxLength);
+            flags[j][k][2] = true;
+            maxLength2 = Math.max(result, maxLength2);
             result = 1;
         }
 
@@ -79,11 +87,11 @@ public final class TicTacToe {
             if (j != border && !flags[j][k][3] && field[j][k] == value && field[j + 1][k] == value) {
                 result += 1;
                 flags[j][k][3] = true;
-                flags[j + 1][k][3] = true;
                 flag = 3;
-                oneSequence(flags, flag, result, j + 1, k, value);
+                oneCellSequences(flags, flag, result, j + 1, k, value);
             }
-            maxLength = Math.max(result, maxLength);
+            flags[j][k][3] = true;
+            maxLength3 = Math.max(result, maxLength3);
             result = 1;
         }
 
@@ -91,13 +99,15 @@ public final class TicTacToe {
             if (k != 0 && j != border &&!flags[j][k][4] && field[j][k] == value && field[j + 1][k - 1] == value) {
                 result += 1;
                 flags[j][k][4] = true;
-                flags[j + 1][k - 1][4] = true;
                 flag = 4;
-                oneSequence(flags, flag, result, j + 1, k - 1, value);
+                oneCellSequences(flags, flag, result, j + 1, k - 1, value);
             }
-            maxLength = Math.max(result, maxLength);
+            flags[j][k][4] = true;
+            maxLength4 = Math.max(result, maxLength4);
         }
-        return maxLength;
+        if (maxLength1 >= maxLength2 && maxLength1 >= maxLength3 && maxLength1 >= maxLength4) return maxLength1;
+        else if (maxLength2 >= maxLength3 && maxLength2 >= maxLength4) return maxLength2;
+        else return Math.max(maxLength3, maxLength4);
     }
 
 
@@ -109,7 +119,7 @@ public final class TicTacToe {
         int maxLength = 0;
         for (int row = 0; row < side; row++) {
             for (int column = 0; column < side; column++) {
-                maxLength = Math.max(oneSequence(flags, flag, result, row, column, value), maxLength);
+                maxLength = Math.max(oneCellSequences(flags, flag, result, row, column, value), maxLength);
             }
         }
         return maxLength;
