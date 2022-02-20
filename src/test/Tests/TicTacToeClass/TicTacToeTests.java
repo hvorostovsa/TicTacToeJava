@@ -15,7 +15,7 @@ public final class TicTacToeTests {
     }
 
     @Test
-    public void valueTest() {
+    public void valueTest() throws TicTacToe.CellOperationException{
         TicTacToe field = new TicTacToe(3); //create new field
 
         //few moves
@@ -24,23 +24,23 @@ public final class TicTacToeTests {
         field.setO(2,2);
         field.setX(0,1);
 
-        assertNull(field.get(1, 1));
-        assertEquals(true, field.get(1,2));
-        assertEquals(false, field.get(0, 0));
-        assertEquals(true, field.get(0,1));
-        assertEquals(false, field.get(2, 2));
+        assertEquals(TicTacToe.TicTacToeValues.NOTHING ,field.get(1, 1));
+        assertEquals(TicTacToe.TicTacToeValues.CROSS, field.get(1,2));
+        assertEquals(TicTacToe.TicTacToeValues.ZERO, field.get(0, 0));
+        assertEquals(TicTacToe.TicTacToeValues.CROSS, field.get(0,1));
+        assertEquals(TicTacToe.TicTacToeValues.ZERO, field.get(2, 2));
 
         //clear the cells
         field.clear(2,2);
         field.clear(0,1);
 
-        assertNull(field.get(2, 2));
-        assertNull(field.get(0, 1));
+        assertEquals(TicTacToe.TicTacToeValues.NOTHING ,field.get(2, 2));
+        assertEquals(TicTacToe.TicTacToeValues.NOTHING ,field.get(0, 1));
     }
 
     // trying to put smth out of bounds
     @Test(expected = IndexOutOfBoundsException.class)
-    public void setOutsideField() {
+    public void setOutsideField() throws TicTacToe.CellOperationException{
         new TicTacToe(3).setX(3,1);
     }
 
@@ -51,21 +51,26 @@ public final class TicTacToeTests {
     }
 
     //trying to put smth to a non-empty cell
-    @Test(expected = ArrayStoreException.class)
-    public void setNonEmptyCell() {
+    @Test(expected = TicTacToe.CellOperationException.class)
+    public void setInNonEmptyCell() throws TicTacToe.CellOperationException {
         TicTacToe field = new TicTacToe(3);
         field.setO(1, 1);
         field.setX(1, 1);
     }
 
     //trying to clear empty cell
-    @Test(expected = ArrayStoreException.class)
-    public void clearEmptyCell() {
+    @Test(expected = TicTacToe.CellOperationException.class)
+    public void clearEmptyCell() throws TicTacToe.CellOperationException {
         new TicTacToe(3).clear(0,2);
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void incorrectSideLength() {
+        new TicTacToe(0);
+    }
+
     @Test
-    public void longestSequenceTest() {
+    public void longestSequenceTest() throws TicTacToe.CellOperationException {
         TicTacToe field1 = new TicTacToe(3);
         field1.setX(0,1);
         field1.setX(1,1);
@@ -100,15 +105,15 @@ public final class TicTacToeTests {
         assertEquals(0, field4.longestSequenceO());
 
         TicTacToe field5 = new TicTacToe(5);
-        field2.setX(2,0);
-        field2.setX(1,2);
-        field2.setX(2,2);
-        field2.setO(0, 0);
-        field2.setO(1, 0);
-        field2.setO(3, 0);
-        field2.setO(3, 1);
-        field2.setO(3, 2);
+        field5.setX(2,0);
+        field5.setX(1,2);
+        field5.setX(2,2);
+        field5.setO(0, 0);
+        field5.setO(1, 0);
+        field5.setO(3, 0);
+        field5.setO(3, 1);
+        field5.setO(3, 2);
         assertEquals(2, field5.longestSequenceX());
         assertEquals(3, field5.longestSequenceO());
-    }
+        }
 }
