@@ -1,6 +1,6 @@
 package TicTacToeClass;
 
-public final class TicTacToe {
+public class TicTacToe {
     private final int side;
     private final TicTacToeValues[][] field;
     private final String borderError = "Coordinate cannot be determined outside the field";
@@ -97,10 +97,6 @@ public final class TicTacToe {
 
     public int longestSequenceO() {
         return longestSequence(TicTacToeValues.ZERO);
-    }
-
-    public String sizeTest() {
-        return "height and width is " + side;
     }
 
     public static class CellOperationException extends Exception {

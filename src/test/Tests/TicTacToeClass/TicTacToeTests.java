@@ -6,15 +6,6 @@ import static org.junit.Assert.*;
 
 public final class TicTacToeTests {
     @Test
-    public void size() {
-        TicTacToe field1 = new TicTacToe(3);
-        TicTacToe field2 = new TicTacToe(4);
-        assertEquals("height and width is 3", field1.sizeTest());
-        assertEquals("height and width is 4", field2.sizeTest());
-
-    }
-
-    @Test
     public void valueTest() throws TicTacToe.CellOperationException{
         TicTacToe field = new TicTacToe(3); //create new field
 
@@ -71,11 +62,12 @@ public final class TicTacToeTests {
 
     @Test
     public void longestSequenceTest() throws TicTacToe.CellOperationException {
-        TicTacToe field1 = new TicTacToe(3);
+        TicTacToe field1 = new TicTacToe(2);
         field1.setX(0,1);
+        field1.setO(0,0);
         field1.setX(1,1);
-        field1.setX(2,1);
-        assertEquals(3, field1.longestSequenceX());
+        field1.setO(1,0);
+        assertEquals(2, field1.longestSequenceX());
 
         TicTacToe field2 = new TicTacToe(4);
         field2.setX(0,2);
