@@ -1,4 +1,4 @@
-package TicTacToeClass;
+package tictactoeclass;
 
 import org.junit.Test;
 
@@ -15,18 +15,18 @@ public final class TicTacToeTests {
         field.setO(2,2);
         field.setX(0,1);
 
-        assertEquals(TicTacToe.TicTacToeValues.NOTHING ,field.get(1, 1));
-        assertEquals(TicTacToe.TicTacToeValues.CROSS, field.get(1,2));
-        assertEquals(TicTacToe.TicTacToeValues.ZERO, field.get(0, 0));
-        assertEquals(TicTacToe.TicTacToeValues.CROSS, field.get(0,1));
-        assertEquals(TicTacToe.TicTacToeValues.ZERO, field.get(2, 2));
+        assertEquals(TicTacToe.TicTacToeType.NOTHING ,field.get(1, 1));
+        assertEquals(TicTacToe.TicTacToeType.CROSS, field.get(1,2));
+        assertEquals(TicTacToe.TicTacToeType.ZERO, field.get(0, 0));
+        assertEquals(TicTacToe.TicTacToeType.CROSS, field.get(0,1));
+        assertEquals(TicTacToe.TicTacToeType.ZERO, field.get(2, 2));
 
         //clear the cells
         field.clear(2,2);
         field.clear(0,1);
 
-        assertEquals(TicTacToe.TicTacToeValues.NOTHING ,field.get(2, 2));
-        assertEquals(TicTacToe.TicTacToeValues.NOTHING ,field.get(0, 1));
+        assertEquals(TicTacToe.TicTacToeType.NOTHING ,field.get(2, 2));
+        assertEquals(TicTacToe.TicTacToeType.NOTHING ,field.get(0, 1));
     }
 
     // trying to put smth out of bounds
